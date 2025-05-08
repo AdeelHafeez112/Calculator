@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:practice_app/components/my_button.dart';
+import 'package:practice_app/components/normal_button_widget.dart';
+import 'package:practice_app/components/zero_button_widget.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -20,25 +21,41 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.symmetric(horizontal: 10),
           child: Column(
             children: [
-              Expanded(
+              SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Align(
+                      const SizedBox(height: 100),
+                      Container(
                         alignment: Alignment.centerRight,
-                        child: Text(userInput.toString(), style: TextStyle(fontSize: 60, color: Colors.black),),
+                        child:SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true,
+                          child: Text(userInput.toString(), style: TextStyle(fontSize: 90, color: Colors.black),
+                            maxLines: 1,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
                       ),
-                      Align(
+                      const SizedBox(height:20),
+                      Container(
                         alignment: Alignment.centerRight,
-                        child: Text(userInput.toString(), style: TextStyle(fontSize: 45, color: Colors.grey),),
+                        child:SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          reverse: true,
+                          child: Text(userInput.toString(), style: TextStyle(fontSize: 45, color: Colors.grey),
+                            maxLines: 1,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
                       )
                     ],
                   ),
                 ),
               ),
-              Expanded(
-                flex: 2,
+              SafeArea(
                 child: Column(
                   children: [
                     Row(
@@ -139,16 +156,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Row(
                       children: [
-                        MyButton(
+                        ZeroButtonWidget(
                           title: "0",
                           onPress: () {userInput += '0'; setState(() {});},
-                          color: Colors.black,
-                        ),
-                        MyButton(
-                          title: "0",
-                          onPress: () {userInput += '0'; setState(() {});},
-                          color: Colors.black,
-                        ),
+                          color: Colors.black,),
                         MyButton(
                           title: ".",
                           onPress: () {userInput += '.'; setState(() {});},
@@ -171,3 +182,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+//
