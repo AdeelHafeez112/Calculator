@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class MyButton extends StatelessWidget {
+class NormalButtonWidget extends StatelessWidget {
   final String title;
   final Color color;
+  final Color buttonColor;
   final VoidCallback onPress;
-  const MyButton({
+  const NormalButtonWidget({
     super.key,
     required this.title,
     this.color = Colors.black,
+    this.buttonColor = Colors.white,
     required this.onPress,
   });
 
@@ -23,7 +25,7 @@ class MyButton extends StatelessWidget {
             width: 75,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: buttonColor,
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.3),

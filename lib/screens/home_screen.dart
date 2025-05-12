@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practice_app/components/answer_widget.dart';
 import 'package:practice_app/components/normal_button_widget.dart';
 import 'package:practice_app/components/zero_button_widget.dart';
 
@@ -27,30 +28,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const SizedBox(height: 100),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child:SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          reverse: true,
-                          child: Text(userInput.toString(), style: TextStyle(fontSize: 90, color: Colors.black),
-                            maxLines: 1,
-                            overflow: TextOverflow.visible,
-                          ),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                  IconButton(icon: Icon(Icons.dark_mode, color: Colors.black, size: 20),
+                  onPressed: (){}, ),
+                        ],
                       ),
-                      const SizedBox(height:20),
-                      Container(
-                        alignment: Alignment.centerRight,
-                        child:SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          reverse: true,
-                          child: Text(userInput.toString(), style: TextStyle(fontSize: 45, color: Colors.grey),
-                            maxLines: 1,
-                            overflow: TextOverflow.visible,
-                          ),
-                        ),
-                      )
+                      const SizedBox(height: 80),
+                      AnswerWidget(answer: userInput,),
+                      const SizedBox(height:75),
                     ],
                   ),
                 ),
@@ -60,22 +47,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Row(
                       children: [
-                        MyButton(
+                        NormalButtonWidget(
                           title: "AC",
                           onPress: () {userInput ='';answer ='';setState(() {});},
                           color: Colors.grey,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "+/-",
                           onPress: () {userInput += '+/-'; setState(() {});},
                           color: Colors.grey,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "%",
                           onPress: () {userInput += '%'; setState(() {});},
                           color: Colors.grey,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "÷",
                           onPress: () {userInput += '÷'; setState(() {});},
                           color: Colors.orange,
@@ -84,22 +71,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Row(
                       children: [
-                        MyButton(
+                        NormalButtonWidget(
                           title: "7",
                           onPress: () {userInput += '7'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "8",
                           onPress: () {userInput += '8'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "9",
                           onPress: () {userInput += '9'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "×",
                           onPress: () {userInput += '×'; setState(() {});},
                           color: Colors.orange,
@@ -108,22 +95,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Row(
                       children: [
-                        MyButton(
+                        NormalButtonWidget(
                           title: "4",
                           onPress: () {userInput += '4'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "5",
                           onPress: () {userInput += '5'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "6",
                           onPress: () {userInput += '6'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "-",
                           onPress: () {userInput += '-'; setState(() {});},
                           color: Colors.orange,
@@ -132,22 +119,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Row(
                       children: [
-                        MyButton(
+                        NormalButtonWidget(
                           title: "1",
                           onPress: () {userInput += '1'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "2",
                           onPress: () {userInput += '2'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "3",
                           onPress: () {userInput += '3'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "+",
                           onPress: () {userInput += '+'; setState(() {});},
                           color: Colors.orange,
@@ -159,13 +146,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ZeroButtonWidget(
                           title: "0",
                           onPress: () {userInput += '0'; setState(() {});},
-                          color: Colors.black,),
-                        MyButton(
+                          buttonTextColor: Colors.black,),
+                        NormalButtonWidget(
                           title: ".",
                           onPress: () {userInput += '.'; setState(() {});},
                           color: Colors.black,
                         ),
-                        MyButton(
+                        NormalButtonWidget(
                           title: "=",
                           onPress: () {},
                           color: Colors.orange,

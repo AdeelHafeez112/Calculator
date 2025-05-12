@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class ZeroButtonWidget extends StatelessWidget {
   final String title;
-  final Color color;
+  final Color buttonTextColor;
+  final Color buttonColor;
   final VoidCallback onPress;
   const ZeroButtonWidget({
     super.key,
     required this.title,
-    this.color = Colors.black,
+    this.buttonTextColor = Colors.black,
+    this.buttonColor = Colors.white,
     required this.onPress,
   });
 
@@ -38,7 +40,7 @@ class ZeroButtonWidget extends StatelessWidget {
                   height: 73,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(37.5),
-                    color: Colors.white,
+                    color: buttonColor,
                     border: Border.all(
                       color: Colors.grey.shade300,
                       width: 0.5,
@@ -48,7 +50,7 @@ class ZeroButtonWidget extends StatelessWidget {
                     child: Text(
                         title,
                         style: TextStyle(
-                            color: Colors.black,
+                            color: buttonTextColor,
                             fontSize: 30
                         )
                     ),
