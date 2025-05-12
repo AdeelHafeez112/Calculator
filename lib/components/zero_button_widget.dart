@@ -4,12 +4,16 @@ class ZeroButtonWidget extends StatelessWidget {
   final String title;
   final Color buttonTextColor;
   final Color buttonColor;
+  final Color shade1;
+  final Color shade2;
   final VoidCallback onPress;
   const ZeroButtonWidget({
     super.key,
     required this.title,
     this.buttonTextColor = Colors.black,
     this.buttonColor = Colors.white,
+    this.shade1 = Colors.grey,
+    this.shade2 = Colors.grey,
     required this.onPress,
   });
 
@@ -28,7 +32,7 @@ class ZeroButtonWidget extends StatelessWidget {
                 height: 75,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(37.5),
-                  color: Colors.grey.shade400,
+                  color: shade1,
                 ),
               ),
               // Slightly offset top layer (creates impression of being pressed in)
@@ -42,7 +46,7 @@ class ZeroButtonWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(37.5),
                     color: buttonColor,
                     border: Border.all(
-                      color: Colors.grey.shade300,
+                      color: shade2,
                       width: 0.5,
                     ),
                   ),
