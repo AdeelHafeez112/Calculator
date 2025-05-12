@@ -38,11 +38,72 @@ class _MyHomePageState extends State<MyHomePage> {
       textColor = Colors.black;
       buttonTextColor = Colors.black;
       buttonColor = Colors.white;
-      buttonShadowColor = Colors.grey.withOpacity(0.3);
+      buttonShadowColor = Colors.grey.withOpacity(0.5);
       zeroBorderShade = Colors.grey.shade400;
       zeroButtonShade = Colors.grey.shade300;
     }
   }
+
+  String calculate(String expr) {
+      // Step 1: Tokenize
+      List tokens = [];
+      String num = '';
+      expr = expr.replaceAll("÷", "/");
+      expr = expr.replaceAll("×", "*");
+      for (int i = 0; i < expr.length; i++) {
+        String ch = expr[i];
+        if (RegExp(r'[0-9.]').hasMatch(ch)) {
+          num += ch;
+        } else if ('+-*/%'.contains(ch)) {
+          tokens.add(double.parse(num));
+          tokens.add(ch);
+          num = '';
+        }
+      }
+      if (num.isNotEmpty) {
+        tokens.add(double.parse(num));
+      }
+
+      // Step 2: * and /
+      int i = 0;
+      while (i < tokens.length) {
+        if (tokens[i] == '/') {
+          double result = tokens[i - 1] / tokens[i + 1];
+          tokens.replaceRange(i - 1, i + 2, [result]);
+          i -= 1;
+        } else if (tokens[i] == '*') {
+          double result = tokens[i - 1] * tokens[i + 1];
+          tokens.replaceRange(i - 1, i + 2, [result]);
+          i -= 1;
+        } else if (tokens[i] == '%') {
+          double result = tokens[i - 1] % tokens[i + 1];
+          tokens.replaceRange(i - 1, i + 2, [result]);
+          i -= 1;
+        }else {
+          i += 1;
+        }
+      }
+
+      // Step 3: + and -
+      i = 0;
+      while (i < tokens.length) {
+        if (tokens[i] == '+') {
+          double result = tokens[i - 1] + tokens[i + 1];
+          tokens.replaceRange(i - 1, i + 2, [result]);
+          i -= 1;
+        } else if (tokens[i] == '-') {
+          double result = tokens[i - 1] - tokens[i + 1];
+          tokens.replaceRange(i - 1, i + 2, [result]);
+          i -= 1;
+        } else {
+          i += 1;
+        }
+      }
+
+      return tokens[0].toStringAsFixed(2);
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +292,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: "=",
-                          onPress: () {},
+                          onPress: () {
+                            String answer = calculate(userInput);
+                            userInput = answer;
+                            setState(() {});
+                          },
                           color: Colors.orange,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
