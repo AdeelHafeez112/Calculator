@@ -54,17 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
         String ch = expr[i];
         if (RegExp(r'[0-9.]').hasMatch(ch)) {
           num += ch;
+        } else if ('+-'.contains(ch) && (i == 0 || '+-*/%'.contains(expr[i - 1]))) {
+          // Unary + or -
+          num += ch;
         } else if ('+-*/%'.contains(ch)) {
-          tokens.add(double.parse(num));
+          if (num.isNotEmpty) {
+            tokens.add(double.parse(num));
+            num = '';
+          }
           tokens.add(ch);
-          num = '';
         }
       }
       if (num.isNotEmpty) {
         tokens.add(double.parse(num));
       }
 
-      // Step 2: * and /
+      // Step 2: *,/,%
       int i = 0;
       while (i < tokens.length) {
         if (tokens[i] == '/') {
@@ -103,6 +108,56 @@ class _MyHomePageState extends State<MyHomePage> {
       return tokens[0].toStringAsFixed(2);
 
   }
+
+  String logic(String expr) {
+    // Step 1: Find where the last number starts
+    int i = expr.length - 1;
+    while (i >= 0 && isDigit(expr[i])) {
+      i--;
+    }
+    int lastNumStart = i + 1;
+    // Step 2: Check if character just before last number is '+' or '-'
+    if (lastNumStart > 0 && (expr[lastNumStart - 1] == '+' || expr[lastNumStart - 1] == '-')) {
+      int opIndex = lastNumStart - 1;
+      if (expr[opIndex] == '+') {
+        return '${expr.substring(0, opIndex)}-${expr.substring(opIndex + 1)}';
+      } else if (expr[opIndex] == '-') {
+        if (opIndex > 0 && isDigit(expr[opIndex - 1])) {
+          return '${expr.substring(0, opIndex)}+${expr.substring(opIndex + 1)}';
+        } else {
+          return expr.substring(0, opIndex) + expr.substring(opIndex + 1);
+        }
+      }
+    } else {
+      // No '+' or '-' before last number → insert '-' before it
+      return '${expr.substring(0, lastNumStart)}-${expr.substring(lastNumStart)}';
+    }
+    return expr;
+  }
+
+// Helper function to check if a character is a digit
+  bool isDigit(String ch) {
+    return ch.codeUnitAt(0) >= '0'.codeUnitAt(0) && ch.codeUnitAt(0) <= '9'.codeUnitAt(0);
+  }
+
+  bool isOperator(String ch) {
+    return ['+', '-', '×', '÷', '%','.'].contains(ch);
+  }
+
+  void addOperator(String operator) {
+    if (userInput.isEmpty) {
+      if (operator == '-') {
+        userInput += '-';
+        setState(() {});
+      }
+      // ignore other operators at start
+    } else if (!isOperator(userInput[userInput.length - 1])) {
+      userInput += operator;
+      setState(() {});
+    }
+  }
+
+
 
 
   @override
@@ -156,21 +211,25 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: "+/-",
-                          onPress: () {userInput += '+/-'; setState(() {});},
+                          onPress: () {
+                            String output = logic(userInput);
+                            userInput = output;
+                            setState(() {});
+                          },
                           color: Colors.grey,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
                         ),
                         NormalButtonWidget(
                           title: "%",
-                          onPress: () {userInput += '%'; setState(() {});},
+                          onPress: () => addOperator("%"),
                           color: Colors.grey,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
                         ),
                         NormalButtonWidget(
                           title: "÷",
-                          onPress: () {userInput += '÷'; setState(() {});},
+                          onPress: () => addOperator("÷"),
                           color: Colors.orange,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
@@ -202,7 +261,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: "×",
-                          onPress: () {userInput += '×'; setState(() {});},
+                          onPress: () => addOperator('×'),
                           color: Colors.orange,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
@@ -234,7 +293,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: "-",
-                          onPress: () {userInput += '-'; setState(() {});},
+                          onPress: () => addOperator('-'),
                           color: Colors.orange,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
@@ -266,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: "+",
-                          onPress: () {userInput += '+'; setState(() {});},
+                          onPress: () => addOperator('+'),
                           color: Colors.orange,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
@@ -285,7 +344,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         NormalButtonWidget(
                           title: ".",
-                          onPress: () {userInput += '.'; setState(() {});},
+                          onPress: () => addOperator('.'),
                           color: buttonTextColor,
                           buttonColor: buttonColor,
                           shadowColor: buttonShadowColor,
@@ -294,8 +353,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           title: "=",
                           onPress: () {
                             String answer = calculate(userInput);
+                            if (answer.toLowerCase() == 'infinity'){
+                              userInput = "0";
+                            }else{
                             userInput = answer;
-                            setState(() {});
+                            setState(() {});}
                           },
                           color: Colors.orange,
                           buttonColor: buttonColor,
@@ -313,4 +375,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-//
