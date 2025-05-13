@@ -18,7 +18,7 @@ class _AnswerWidgetState extends State<AnswerWidget>{
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         reverse: true,
-        child: Text(widget.answer.toString(),style: TextStyle(color: widget.color,fontSize: 80),
+        child: Text(widget.answer.toString(),style: TextStyle(color: widget.color,fontSize: 70),
           maxLines: 1,
           overflow: TextOverflow.visible,
         ),
